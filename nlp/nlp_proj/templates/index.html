@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Review Data</title>
+</head>
+<body>
+    <h1>Review List</h1>
+    {% for review in review_list %}
+        <p>{{ review.idx }}, {{ review.text }}, {{ review.label}}</p>
+    {% endfor %}
+
+</body>
+</html>
