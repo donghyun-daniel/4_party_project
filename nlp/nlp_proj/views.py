@@ -1,19 +1,17 @@
 from django.shortcuts import render, HttpResponse
 import numpy as np
 import pandas as pd
+import os
+from nlp.settings import BASE_DIR
+
 
 # Create your views here.
 from nlp_proj.models import Hotel
 
-def read_dummy(txtfile):
-    txtfile = pd.read_csv(txtfile, sep = ",", header = None)
-    for i in txtfile:
-        print(txtfile["1"])
-
-
-
 def index(request):
-    dd = read_dummy("dummydata/dummy.txt")
+    txtfile = pd.read_csv(os.path.join(BASE_DIR, 'nlp_proj/dummydata/dummy.txt') , sep=",", names=["txt", "category", "label"])
+    overall = txtfile.groupby("label").count().iloc[:3, 1].values.tolist()
+
 
     # review_all = Hotel.objects.all()  # .get(), .filter(), ...
     # request가 POST -> Form을 완성.
@@ -24,4 +22,4 @@ def index(request):
     #         form.save()  # Form을 Model에 저장
 
     # form = CoffeeForm()
-    return render(request, 'DH_Template.html')
+    return render(request, 'index.html')
