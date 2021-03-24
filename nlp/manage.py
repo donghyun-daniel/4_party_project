@@ -18,11 +18,6 @@ def main():
         ) from exc
     execute_from_command_line(sys.argv)
 
-def read_dummy(txtfile):
-    txtfile = pd.read_csv(txtfile, sep=",")
-    for i in txtfile:
-        print(i)
-
 
 if __name__ == '__main__':
     main()

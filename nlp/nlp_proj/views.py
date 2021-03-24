@@ -6,15 +6,14 @@ import pandas as pd
 from nlp_proj.models import Hotel
 
 def read_dummy(txtfile):
-    txtfile = pd.read_csv(txtfile, sep = ",")
+    txtfile = pd.read_csv(txtfile, sep = ",", header = None)
     for i in txtfile:
-        print(i)
-
+        print(txtfile["1"])
 
 
 
 def index(request):
-    dd = read_dummy("../dummydata/dummy.txt")
+    dd = read_dummy("dummydata/dummy.txt")
 
     # review_all = Hotel.objects.all()  # .get(), .filter(), ...
     # request가 POST -> Form을 완성.
