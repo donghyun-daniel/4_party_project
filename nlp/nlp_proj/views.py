@@ -1,10 +1,22 @@
 from django.shortcuts import render, HttpResponse
+import numpy as np
+import pandas as pd
+
 # Create your views here.
 from nlp_proj.models import Hotel
 
+def read_dummy(txtfile):
+    txtfile = pd.read_csv(txtfile, sep = ",")
+    for i in txtfile:
+        print(i)
+
+
+
 
 def index(request):
-    review_all = Hotel.objects.all()  # .get(), .filter(), ...
+    dd = read_dummy("../dummydata/dummy.txt")
+
+    # review_all = Hotel.objects.all()  # .get(), .filter(), ...
     # request가 POST -> Form을 완성.
     # Form이 유효하면 저장.\
     # if request.method == "POST":
@@ -13,4 +25,4 @@ def index(request):
     #         form.save()  # Form을 Model에 저장
 
     # form = CoffeeForm()
-    return render(request, 'index.html', {"review_list": review_all})
+    return render(request, 'DH_Template.html')
