@@ -4,17 +4,34 @@ import pandas as pd
 import os
 from nlp.settings import BASE_DIR
 import json
+import math
 
 
 # Create your views here.
 from nlp_proj.models import Hotel
 
 def index(request):
-    txtfile = pd.read_csv(os.path.join(BASE_DIR, 'nlp_proj/dummydata/dummy.txt') , sep=",", names=["txt", "category", "label"])
-    overall = txtfile.groupby("label").count().iloc[:3, 1].values.tolist()
-    overall_keys = ["negative", "positive"]
-    overall_dic = {i : j for i, j in zip(overall_keys, overall)}
-    overall_json = json.dumps(overall_dic)
+    txtfile = pd.read_csv(os.path.join(BASE_DIR, 'nlp_proj/dummydata/FastText_8_sentiment_results.txt'), sep=",")
+    category_pos_cnt = txtfile.groupby("category").sum()
+    category_total_cnt = txtfile.groupby("category").count()
+    category_total_cnt["pos_cnt"] = category_pos_cnt["sentiment"]
+    category_total_cnt["neg_cnt"] = category_total_cnt["sentiment"] - category_total_cnt["pos_cnt"]
+    category_total_cnt["pos_ratio"] = category_total_cnt["pos_cnt"] / (
+                category_total_cnt["pos_cnt"] + category_total_cnt["neg_cnt"])
+    category_total_cnt["neg_ratio"] = category_total_cnt["neg_cnt"] / (
+                category_total_cnt["pos_cnt"] + category_total_cnt["neg_cnt"])
+
+    category_total_cnt["pos_cnt_sqrt"] = category_total_cnt["pos_cnt"].apply(math.sqrt)
+    category_total_cnt["neg_cnt_sqrt"] = category_total_cnt["neg_cnt"].apply(math.sqrt)
+
+    category_total_cnt["pos_score"] = category_total_cnt["pos_cnt_sqrt"] + category_total_cnt["pos_ratio_sqrt"]
+    category_total_cnt["neg_score"] = category_total_cnt["neg_cnt_sqrt"] + category_total_cnt["neg_ratio_sqrt"]
+
+    category_json = json.dumps(category_total_cnt)
+    total_cnt = {"positive": category_total_cnt["pos_cnt"].sum(), "negative": category_total_cnt["neg_cnt"].sum()}
+
+    total_cnt = {"positive": category_total_cnt["pos_cnt"].sum(), "negative": category_total_cnt["neg_cnt"].sum()}
+
 
     #sents8_json = pd.read_csv(os.path.join(BASE_DIR, 'nlp_proj/dummydata/FastText_8_sentiment_results.txt') , sep=",", names=["txt", "category", "sentiment", "rawIdx"])
     #overall = txtfile.groupby("label").count().iloc[:3, 1].values
@@ -33,4 +50,4 @@ def index(request):
     #         form.save()  # Form을 Model에 저장
 
     # form = CoffeeForm()
-    return render(request, 'index.html', {"overall_json" : overall_json})
+    return render(request, 'index.html', {"total_json" : total_cnt})

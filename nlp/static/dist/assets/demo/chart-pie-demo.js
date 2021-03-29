@@ -4,15 +4,14 @@ Chart.defaults.global.defaultFontColor = '#292b2c';
 
 // Pie Chart Example
 var ctx = document.getElementById("myPieChart");
-var overall = document.getElementById('overall_json').value;
-var overall = JSON.parse(overall);
+var total = JSON.parse(document.getElementById('total_json').value);
 
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
-    labels: Object.keys(overall),
+    labels: Object.keys(total),
     datasets: [{
-      data: Object.values(overall),
+      data: Object.values(total),
       backgroundColor: ['#00FF00', '#FF0000'],
     }],
   },
