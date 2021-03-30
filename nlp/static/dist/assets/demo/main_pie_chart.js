@@ -11,8 +11,22 @@ var myPieChart = new Chart(ctx, {
   data: {
     labels: Object.keys(total),
     datasets: [{
-      data: Object.values(total),
-      backgroundColor: ['#00FF00', '#FF0000'],
-    }],
-  },
+        data: Object.values(total),
+        backgroundColor: ['#00FF88', '#FF8800'],
+        }],
+        }
+   options: {
+    responsive: true,
+   }
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
 });
