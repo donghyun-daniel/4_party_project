@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, HttpResponse, redirect
 import numpy as np
 import pandas as pd
 import os
@@ -8,7 +8,10 @@ import math
 
 
 # Create your views here.
-from nlp_proj.models import Hotel
+from .models import RawData
+from .models import Hotel
+from .models import UploadFile
+from .forms import UploadFileForm
 
 
 def index(request):
@@ -72,3 +75,16 @@ def index(request):
 
     # form = CoffeeForm()
     return render(request, 'index.html', {"total_json" : total_json, "category_json" : category_json, "pos_score_json" : pos_score_json})
+
+def upload_view(request):
+    file_all = UploadFile.objects.all()
+    url = "/home/ubuntu/5team/nlp/media/rawfile"
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+
+        return redirect(upload_view)
+    else:
+        form = UploadFileForm()
+    return render(request, 'upload.html', {"file_list" : file_all, "uploadform" : form})
