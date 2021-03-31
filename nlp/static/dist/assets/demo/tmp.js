@@ -3,13 +3,13 @@ Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSyste
 Chart.defaults.global.defaultFontColor = '#292b2c';
 
 var chartColors = {
-  red: 'rgb(255, 99, 132, 0.4)',
-  orange: 'rgb(255, 159, 64, 0.4)',
-  yellow: 'rgb(255, 205, 86, 0.4)',
-  green: 'rgb(75, 192, 192, 0.4)',
-  blue: 'rgb(54, 162, 235, 0.4)',
-  purple: 'rgb(153, 102, 255, 0.4)',
-  grey: 'rgb(201, 203, 207, 0.4)'
+  red: 'rgb(255, 99, 132)',
+  orange: 'rgb(255, 159, 64)',
+  yellow: 'rgb(255, 205, 86)',
+  green: 'rgb(75, 192, 192)',
+  blue: 'rgb(54, 162, 235)',
+  purple: 'rgb(153, 102, 255)',
+  grey: 'rgb(201, 203, 207)'
 };
 
 // Pie Chart Example
@@ -97,18 +97,44 @@ Chart.pluginService.register({
   }
 });
 
-
-// Pie Chart Example
 var ctx = document.getElementById("main_pie_chart");
 var total = JSON.parse(document.getElementById('total_json').value);
+let posNegArrDo = Object.values(total);
+const posPercent = Math.round((posNegArrDo[0]/(posNegArrDo[0] +posNegArrDo[1]))*100)
 
+console.log(posPercent);
 var myPieChart = new Chart(ctx, {
   type: 'doughnut',
   data: {
     labels: Object.keys(total),
     datasets: [{
         data: Object.values(total),
-        backgroundColor: [chartColors.red, chartColors.blue],
-      }],
-    }
+        backgroundColor: [chartColors.blue, chartColors.red],
+        }],
+        },
+    options:{
+      elements : {
+        center:{
+          text: posPercent.toString() + '%',
+          color: chartColors.blue, // Default is #000000
+          fontStyle: 'Arial', // Default is Arial
+          maxFontSize : 30,
+          sidePadding: 20, // Default is 20 (as a percentage)
+          minFontSize: 10, // Default is 20 (in px), set to false and text will not wrap.
+          lineHeight: 25
+        }
+      },
+      responsive: true,
+   },
+				legend: {
+					position: 'top',
+				},
+				title: {
+					display: true,
+					text: 'Chart.js Doughnut Chart'
+				},
+				animation: {
+					animateScale: true,
+					animateRotate: true
+				}
 });

@@ -10,6 +10,7 @@ import math
 # Create your views here.
 from nlp_proj.models import Hotel
 
+
 def index(request):
     txtfile = pd.read_csv(os.path.join(BASE_DIR, "nlp_proj/dummydata/FastText_8_sentiment_results.txt"), sep=",")
     category_pos_cnt = txtfile.groupby("category").sum()
