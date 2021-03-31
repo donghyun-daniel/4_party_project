@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>file Upload</title>
+</head>
+
+<body>
+    <h1>File Upload</h1>
+    <ul>
+        {% for files in file_list %}
+        <li>{{ files.text }} : {{ files.file }}</li>
+        {% endfor %}
+    </ul>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ uploadform.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+
+</html>

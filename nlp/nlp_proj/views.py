@@ -9,7 +9,6 @@ import math
 
 # Create your views here.
 from .models import RawData
-from .models import Hotel
 from .models import UploadFile
 from .forms import UploadFileForm
 
@@ -88,3 +87,37 @@ def upload_view(request):
     else:
         form = UploadFileForm()
     return render(request, 'upload.html', {"file_list" : file_all, "uploadform" : form})
+def lineChart(request):
+    
+    import pandas as pd
+    #데이터 읽어오기 
+    #raw_datas = pd.read_csv(os.path.join(BASE_DIR, "nlp_proj/dummydata/FastText_8_sentiment_results.txt"), sep=",")
+    #raw_datas = pd.read_csv('/Users/hoon2hooni/Downloads/4_party_big_files/big_test.csv')
+    results_after_sentimental_col8 = pd.read_csv(os.path.join(BASE_DIR, "nlp_proj/dummydata/FastText_8_sentiment_results.txt"), sep=",")
+    #results_after_sentimental_col8=pd.read_csv('/Users/hoon2hooni/Downloads/4_party_big_files/FastText_8_sentiment_results.txt') 
+    
+    #각 항목별 긍정 부정 
+    sentiment_category = results_after_sentimental_col8[['sentiment','category']].groupby('category').sum()
+    total_category = results_after_sentimental_col8[['text','category']].groupby('category').count()
+    sentiment_category['negative'] = total_category['text']-sentiment_category['sentiment']
+    #긍정 부정 비율 추가
+    sentiment_category['pos_ratio'] = sentiment_category['sentiment']/total_category['text']
+    sentiment_category['neg_ratio'] = sentiment_category['negative']/total_category['text']
+    sentiment_category.columns=['긍정','부정','긍정비율','부정비율']
+    #카테고리, 각 카테고리별 긍정 부정 점수 전달
+    categories  = sentiment_category.index.tolist()
+    positive_nums = sentiment_category['긍정비율'].tolist()
+    positive_nums =json.dumps(positive_nums)
+    negative_nums = sentiment_category['부정비율'].tolist()
+    negative_nums = json.dumps(negative_nums)
+    test_list = [{'2017':[100,90],'2018':[12,0],'2019':[90,300]},\
+    {'2017':[10,90],'2018':[4,0],'2019':[90,33]},{'2017':[100,90],'2018':[40,0],'2019':[90,300],'2020':[44,222]},{'2017':[45,90],'2018':[40,0],'2019':[90,300]}\
+    ,{'2017':[20,90],'2018':[40,0],'2019':[90,90]},{'2017':[100,90],'2018':[40,0],'2019':[90,300]},{'2017':[33,90],'2018':[40,0],'2019':[90,500]}]   
+    cleanness_timeseries_pos_neg = dict()
+    for key, value in zip(categories, test_list):
+        cleanness_timeseries_pos_neg[key] = value
+    categories = json.dumps(categories)
+    print(cleanness_timeseries_pos_neg)
+    cleanness_timeseries_pos_neg = json.dumps(cleanness_timeseries_pos_neg)
+    return render(request, 'lineChart.html', {'categories':categories, 'clean_data': cleanness_timeseries_pos_neg,\
+        "positive": positive_nums, "negative": negative_nums})    

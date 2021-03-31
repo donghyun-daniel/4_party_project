@@ -16,8 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from nlp_proj.views import index
+from nlp_proj.views import upload_view
+from django.conf.urls.static import static
+from nlp import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name = 'index'),
-]
+    path('upload', upload_view)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
