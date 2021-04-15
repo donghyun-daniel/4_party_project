@@ -4,7 +4,7 @@
 
 ## Introduction
 
-![image](https://www.notion.so/249d1dc69ac740528ca5ccc720ec7c1a#90e6565ae9b540aeab38a43809243edd)
+![image](https://user-images.githubusercontent.com/62004890/114817312-b89fe600-9df4-11eb-810e-5419096a2afb.png)
 
 ## Install from github
 
