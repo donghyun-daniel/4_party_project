@@ -18,5 +18,5 @@
 
 - [성동현](https://github.com/donghyun-daniel)
 - [정대교](https://github.com/daekyojeong)
-- [한상훈](https://github.com/acoustic0422)
+- [한상훈](https://github.com/hoon2hooni)
 - [김기홍](https://github.com/Airvw)
