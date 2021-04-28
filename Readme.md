@@ -12,14 +12,20 @@
 ### Our Sentiment analysis examples
 ![image](https://user-images.githubusercontent.com/62004890/116355369-b5fdb180-a834-11eb-9fa3-4e80477af8ff.png)
 
+---
+
 ## Install from github
 You can clone from github or just download zip
+
+---
 
 ## Run
 
 `cd [user_dir]/4_party_project/nlp`
 
 `python mange.py runserver`
+
+---
 
 ## Input form
 ![image](https://user-images.githubusercontent.com/62004890/116355736-3de3bb80-a835-11eb-97d8-bbd389c4ec66.png)
@@ -30,11 +36,14 @@ You can clone from github or just download zip
 
 You can attach your review csv file via Upload File button
 
+---
+
 ## Output Example
 ![image](https://user-images.githubusercontent.com/62004890/116355973-94e99080-a835-11eb-9e7d-92a317f28360.png)
 
 ![image](https://user-images.githubusercontent.com/62004890/116356009-a6cb3380-a835-11eb-9b16-93d30405bc77.png)
 
+---
 
 ## Project members
 
